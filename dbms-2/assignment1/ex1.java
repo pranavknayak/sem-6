@@ -1,15 +1,10 @@
 import java.sql.Connection;
-import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
-
-import javax.naming.spi.DirStateFactory.Result;
-import javax.sql.RowSetMetaData;
 
 public class ex1 {
   private final String url = "jdbc:postgresql://localhost/univdb";
@@ -43,6 +38,7 @@ public class ex1 {
     String table = scanner.nextLine();
     System.out.print("Enter k: ");
     int k = Integer.valueOf(scanner.nextLine());
+    scanner.close();
     String SQL = "SELECT * FROM %s LIMIT %d";
     try (
     Connection conn = connect();
