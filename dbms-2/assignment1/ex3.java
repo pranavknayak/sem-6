@@ -57,11 +57,10 @@ public class ex3 {
   }
 
   public void calculateCGPA(String id){
-    String SQL = "select * from (select" +
-			   " student.id as student_id, course_id, grade" +
-			   " from student join takes" +
-			   " on student.id = takes.id order by student.id) as foo" +
-         " where student_id like ?";
+    String SQL = "select id, course.course_id, credits, grade " +
+                  "from takes join course " +
+                  "on course.course_id = takes.course_id " +
+                  "where id = ?";
     try(
       Connection conn = connect();
       PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -69,22 +68,23 @@ public class ex3 {
       pstmt.setString(1, id);
       ResultSet rs = pstmt.executeQuery();
 
-      int courseCount = 0;
+      double totalCredits = 0;
       int totalGrade = 0;
 
       while(rs.next()){
         String letterGrade = rs.getString("grade").trim();
-        courseCount++;
+        double credits = rs.getDouble("credits");
         int numberGrade = grades.get(letterGrade);
-        totalGrade += numberGrade;
+        totalGrade += numberGrade * credits;
+        totalCredits += credits;
       }
 
-      if (courseCount == 0){
+      if (totalCredits == 0){
         System.out.println("No such student ID on record");
         return;
       }
 
-      double CGPA = totalGrade * 1.0 / courseCount;
+      double CGPA = totalGrade * 1.0 / totalCredits;
       System.out.println(String.format("CGPA for student ID %s: %.2f", id, CGPA));
 
     } catch (SQLException e) {
