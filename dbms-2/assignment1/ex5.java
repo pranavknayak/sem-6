@@ -1,4 +1,3 @@
-import java.lang.Thread.State;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,9 +8,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.swing.SpinnerDateModel;
 
-import org.postgresql.util.GettableHashMap;
 
 public class ex5 {
 
